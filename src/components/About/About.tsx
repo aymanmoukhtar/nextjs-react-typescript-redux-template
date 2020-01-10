@@ -1,9 +1,10 @@
-import Link from 'next/link';
+import { paths } from '../../../paths';
+import Go from '../Shared/Go';
 
 const About = () => (
     <>
         <h1>About</h1>
-        <Link href="/"><a>Home</a></Link>
+        <Go to={paths.home} label="Home" />
     </>
 );
 

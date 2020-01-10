@@ -1,7 +1,8 @@
-import Home from '../src/components/Home/Home';
-import { NextPage, } from 'next';
+import { NextPage } from 'next';
 import { NextJSContext } from 'next-redux-wrapper';
+
 import { getDataAsync } from '../src/actions';
+import Home from '../src/components/Home/Home';
 
 const HomePage: NextPage = Home;
 

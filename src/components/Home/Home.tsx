@@ -1,5 +1,5 @@
-import Link from 'next/link';
-
+import { paths } from '../../../paths';
+import Go from '../Shared/Go';
 import { useHome } from './hooks';
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
             <ul>
                 {data.map(item => <li key={item}>{item}</li>)}
             </ul>
-            <Link href="/about"><a>About</a></Link>
+            <Go to={paths.about} label="About" />
         </>
     );
 };
