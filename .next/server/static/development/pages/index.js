@@ -266,39 +266,6 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _extends; });
-/* harmony import */ var _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/assign */ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js");
-/* harmony import */ var _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_assign__WEBPACK_IMPORTED_MODULE_0__);
-
-function _extends() {
-  _extends = _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0___default.a || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime-corejs2/helpers/extends.js":
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime-corejs2/helpers/extends.js ***!
@@ -2010,20 +1977,28 @@ module.exports = __webpack_require__(/*! ./dist/client/link */ "./node_modules/n
 
 /***/ }),
 
-/***/ "./pages/index.jsx":
+/***/ "./pages/index.tsx":
 /*!*************************!*\
-  !*** ./pages/index.jsx ***!
+  !*** ./pages/index.tsx ***!
   \*************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_components_Layout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../src/components/Layout */ "./src/components/Layout.tsx");
-/* harmony import */ var _src_components_Home_Home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/components/Home/Home */ "./src/components/Home/Home.tsx");
+/* harmony import */ var _src_components_Home_Home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../src/components/Home/Home */ "./src/components/Home/Home.tsx");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/actions */ "./src/actions/index.ts");
 
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(_src_components_Layout__WEBPACK_IMPORTED_MODULE_0__["default"])(_src_components_Home_Home__WEBPACK_IMPORTED_MODULE_1__["default"]));
+const HomePage = _src_components_Home_Home__WEBPACK_IMPORTED_MODULE_0__["default"]; // This is where you dispatch actions to pre-fill needed data for page, before sending to the client
+
+HomePage.getInitialProps = async ({
+  store
+}) => {
+  await Object(_src_actions__WEBPACK_IMPORTED_MODULE_1__["getDataAsync"])(store.dispatch);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (HomePage);
 
 /***/ }),
 
@@ -2073,6 +2048,26 @@ const getDataAsync = Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["async"])(getD
 
 /***/ }),
 
+/***/ "./src/actions/index.ts":
+/*!******************************!*\
+  !*** ./src/actions/index.ts ***!
+  \******************************/
+/*! exports provided: changeTitleAction, getDataAction, getDataAsync */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./home */ "./src/actions/home.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "changeTitleAction", function() { return _home__WEBPACK_IMPORTED_MODULE_0__["changeTitleAction"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDataAction", function() { return _home__WEBPACK_IMPORTED_MODULE_0__["getDataAction"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDataAsync", function() { return _home__WEBPACK_IMPORTED_MODULE_0__["getDataAsync"]; });
+
+
+
+/***/ }),
+
 /***/ "./src/api/home.ts":
 /*!*************************!*\
   !*** ./src/api/home.ts ***!
@@ -2113,49 +2108,41 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 
-
 const Home = () => {
   const {
     title,
-    data,
-    changeTitle,
-    getData
-  } = Object(_hooks__WEBPACK_IMPORTED_MODULE_2__["useHomeState"])();
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    setTimeout(() => {
-      changeTitle('Title changed via action!');
-      getData();
-    }, 3000);
-  }, []);
+    data
+  } = Object(_hooks__WEBPACK_IMPORTED_MODULE_2__["useHome"])();
   return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx("h1", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 23
+      lineNumber: 9
     },
     __self: undefined
   }, title), __jsx("ul", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24
+      lineNumber: 10
     },
     __self: undefined
   }, data.map(item => __jsx("li", {
+    key: item,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 11
     },
     __self: undefined
   }, item))), __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
     href: "/about",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 13
     },
     __self: undefined
   }, __jsx("a", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 13
     },
     __self: undefined
   }, "About")));
@@ -2169,12 +2156,12 @@ const Home = () => {
 /*!**************************************!*\
   !*** ./src/components/Home/hooks.ts ***!
   \**************************************/
-/*! exports provided: useHomeState */
+/*! exports provided: useHome */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHomeState", function() { return useHomeState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHome", function() { return useHome; });
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-properties */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js");
@@ -2190,7 +2177,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _actions_home__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/home */ "./src/actions/home.ts");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions */ "./src/actions/index.ts");
 
 
 
@@ -2206,96 +2193,18 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
-const useHomeState = () => {
+const useHome = () => {
   const state = Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["useSelector"])(({
     home
   }) => home);
   const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["useDispatch"])();
   return _objectSpread({}, state, {
-    changeTitle: newTitle => dispatch(Object(_actions_home__WEBPACK_IMPORTED_MODULE_8__["changeTitleAction"])(newTitle)),
-    getData: () => Object(_actions_home__WEBPACK_IMPORTED_MODULE_8__["getDataAsync"])(dispatch)
+    changeTitle: newTitle => dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["changeTitleAction"])(newTitle)),
+    getData: () => Object(_actions__WEBPACK_IMPORTED_MODULE_8__["getDataAsync"])(dispatch)
   });
 };
 
 
-
-/***/ }),
-
-/***/ "./src/components/Layout.tsx":
-/*!***********************************!*\
-  !*** ./src/components/Layout.tsx ***!
-  \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/head */ "next/head");
-/* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_head__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _reducers_home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/home */ "./src/reducers/home.ts");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "redux");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(redux__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "react-redux");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_5__);
-
-var _jsxFileName = "C:\\Personal\\Work\\next-demo\\src\\components\\Layout.tsx";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_1__["createElement"];
-
-
-
-
-
-const layoutStyle = {
-  margin: 20,
-  padding: 20,
-  border: '1px solid #DDD'
-};
-const rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_4__["combineReducers"])({
-  home: _reducers_home__WEBPACK_IMPORTED_MODULE_3__["homeReducer"]
-});
-const store = Object(redux__WEBPACK_IMPORTED_MODULE_4__["createStore"])(rootReducer);
-
-function withLayout(Component) {
-  return props => __jsx(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
-    store: store,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 26
-    },
-    __self: this
-  }, __jsx("div", {
-    style: layoutStyle,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 27
-    },
-    __self: this
-  }, __jsx(next_head__WEBPACK_IMPORTED_MODULE_2___default.a, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 28
-    },
-    __self: this
-  }, __jsx("title", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 29
-    },
-    __self: this
-  }, "NextJS Template")), __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 31
-    },
-    __self: this
-  }))));
-}
-
-;
-/* harmony default export */ __webpack_exports__["default"] = (withLayout);
 
 /***/ }),
 
@@ -2327,88 +2236,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "async", function() { return async; });
 const async = (action, worker) => (dispatch, params) => {
   dispatch(action.started(params));
-  return worker(params).then(result => dispatch(action.done({
-    params,
-    result
-  }))).catch(error => dispatch(action.failed({
-    params,
-    error
-  })));
-};
-
-
-
-/***/ }),
-
-/***/ "./src/reducers/home.ts":
-/*!******************************!*\
-  !*** ./src/reducers/home.ts ***!
-  \******************************/
-/*! exports provided: homeReducer */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "homeReducer", function() { return homeReducer; });
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-properties */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-descriptors */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptors.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-descriptor */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-symbols */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/keys */ "./node_modules/@babel/runtime-corejs2/core-js/object/keys.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
-/* harmony import */ var typescript_fsa__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! typescript-fsa */ "typescript-fsa");
-/* harmony import */ var typescript_fsa__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(typescript_fsa__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _actions_home__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../actions/home */ "./src/actions/home.ts");
-
-
-
-
-
-
-
-
-function ownKeys(object, enumerableOnly) { var keys = _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default()(object); if (_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default.a) { var symbols = _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default()(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(target, key, source[key]); }); } else if (_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default.a) { _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default()(target, _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default()(source)); } else { ownKeys(Object(source)).forEach(function (key) { _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(target, key, _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(source, key)); }); } } return target; }
-
-
-
-const initialState = {
-  title: 'This is home page title',
-  data: []
-};
-
-const homeReducer = (state = initialState, action) => {
-  if (Object(typescript_fsa__WEBPACK_IMPORTED_MODULE_7__["isType"])(action, _actions_home__WEBPACK_IMPORTED_MODULE_8__["changeTitleAction"])) {
-    return _objectSpread({}, state, {
-      title: action.payload
-    });
-  }
-
-  if (Object(typescript_fsa__WEBPACK_IMPORTED_MODULE_7__["isType"])(action, _actions_home__WEBPACK_IMPORTED_MODULE_8__["getDataAction"].started)) {
-    // Do data loading ui work if needed.
-    return _objectSpread({}, state);
-  }
-
-  if (Object(typescript_fsa__WEBPACK_IMPORTED_MODULE_7__["isType"])(action, _actions_home__WEBPACK_IMPORTED_MODULE_8__["getDataAction"].done)) {
-    return _objectSpread({}, state, {
-      data: action.payload.result
-    });
-  }
-
-  if (Object(typescript_fsa__WEBPACK_IMPORTED_MODULE_7__["isType"])(action, _actions_home__WEBPACK_IMPORTED_MODULE_8__["getDataAction"].failed)) {
-    // Do error handling work if needed
-    return _objectSpread({}, state);
-  }
-
-  return state;
+  return worker(params).then(result => {
+    dispatch(action.done({
+      params,
+      result
+    }));
+    return result;
+  }).catch(error => {
+    dispatch(action.failed({
+      params,
+      error
+    }));
+  });
 };
 
 
@@ -2417,12 +2256,12 @@ const homeReducer = (state = initialState, action) => {
 
 /***/ 4:
 /*!*******************************!*\
-  !*** multi ./pages/index.jsx ***!
+  !*** multi ./pages/index.tsx ***!
   \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Personal\Work\next-demo\pages\index.jsx */"./pages/index.jsx");
+module.exports = __webpack_require__(/*! C:\Personal\Work\next-demo\pages\index.tsx */"./pages/index.tsx");
 
 
 /***/ }),
@@ -2570,17 +2409,6 @@ module.exports = require("core-js/library/fn/weak-map");
 
 /***/ }),
 
-/***/ "next/head":
-/*!****************************!*\
-  !*** external "next/head" ***!
-  \****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("next/head");
-
-/***/ }),
-
 /***/ "prop-types":
 /*!*****************************!*\
   !*** external "prop-types" ***!
@@ -2633,17 +2461,6 @@ module.exports = require("react-is");
 /***/ (function(module, exports) {
 
 module.exports = require("react-redux");
-
-/***/ }),
-
-/***/ "redux":
-/*!************************!*\
-  !*** external "redux" ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("redux");
 
 /***/ }),
 

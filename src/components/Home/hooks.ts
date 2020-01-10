@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
 
-import { THomeState } from "../../types/home";
-import { TGlobalState } from "../Layout";
-import { changeTitleAction, getDataAsync } from "../../actions/home";
+import { THomeState } from "../../types";
+import { changeTitleAction, getDataAsync } from "../../actions";
+import { TGlobalState } from "../../../pages/_app";
 
-const useHomeState = () => {
+const useHome = () => {
     const state = useSelector<TGlobalState, THomeState>(({ home }) => home);
     const dispatch = useDispatch();
 
@@ -16,5 +16,5 @@ const useHomeState = () => {
 };
 
 export {
-    useHomeState
+    useHome
 };

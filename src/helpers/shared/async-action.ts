@@ -12,12 +12,13 @@ const async = <TParameters, TSuccess, TError>(
         dispatch(action.started(params));
 
         return worker(params)
-            .then(result =>
-                dispatch(action.done({ params, result }))
-            )
-            .catch(error =>
-                dispatch(action.failed({ params, error }))
-            );
+            .then(result => {
+                dispatch(action.done({ params, result }));
+                return result;
+            })
+            .catch(error => {
+                dispatch(action.failed({ params, error }));
+            });
     };
 
 export {

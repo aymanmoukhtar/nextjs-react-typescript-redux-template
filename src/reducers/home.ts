@@ -1,7 +1,7 @@
 import { AnyAction, isType } from "typescript-fsa";
 
-import { THomeState } from "../types/home";
-import { changeTitleAction, getDataAction } from "../actions/home";
+import { changeTitleAction, getDataAction } from "../actions";
+import { THomeState } from "../types";
 
 const initialState: THomeState = {
     title: 'This is home page title',
@@ -42,5 +42,6 @@ const homeReducer = (state: THomeState = initialState, action: AnyAction): THome
 };
 
 export {
-    homeReducer
+    homeReducer,
+    initialState as homeInitialState
 };
